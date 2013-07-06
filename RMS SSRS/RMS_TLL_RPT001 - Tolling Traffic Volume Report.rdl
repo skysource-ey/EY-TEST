@@ -638,9 +638,9 @@ FROM
     END
     AS TOLL_LANE_ID, 
     'Average: ' AS PERIOD_TIME,
-    AVG(Convert(decimal(10,4),TAG_CNT)) AS TAG_CNT, 
-    AVG(Convert(decimal(10,4),IMG_CNT)) AS IMG_CNT, 
-    AVG(Convert(decimal(10,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'C' AS L_Order
+    AVG(Convert(decimal(14,4),TAG_CNT)) AS TAG_CNT, 
+    AVG(Convert(decimal(12,4),IMG_CNT)) AS IMG_CNT, 
+    AVG(Convert(decimal(12,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'C' AS L_Order
   FROM
   (
     SELECT 
@@ -792,9 +792,9 @@ FROM
     END
     AS TOLL_LANE_ID, 
     'Average: ' AS PERIOD_TIME,
-    AVG(Convert(decimal(10,4),TAG_CNT)) AS TAG_CNT, 
-    AVG(Convert(decimal(10,4),IMG_CNT)) AS IMG_CNT, 
-    AVG(Convert(decimal(10,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'F' AS L_Order
+    AVG(Convert(decimal(12,4),TAG_CNT)) AS TAG_CNT, 
+    AVG(Convert(decimal(12,4),IMG_CNT)) AS IMG_CNT, 
+    AVG(Convert(decimal(12,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'F' AS L_Order
   FROM
   (
     SELECT 
@@ -1076,7 +1076,6 @@ FROM
             <Value>=Parameters!pCarriageway.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
     </DataSet>
   </DataSets>
