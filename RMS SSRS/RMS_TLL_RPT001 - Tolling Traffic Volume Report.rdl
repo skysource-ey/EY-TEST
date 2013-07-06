@@ -1,0 +1,1709 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="AuditServer">
+      <rd:DataSourceID>86b58c94-8c8e-42a7-8bd6-94751bcc781d</rd:DataSourceID>
+      <DataSourceReference>AuditServer</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>29.6cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pStartDate">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=DateAdd("D", -1, Today)</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Start Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pEndDate">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=DateAdd("D", -1, Today)</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>End Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pRoadWay">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Roadway</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>All</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Sydney Harbour Bridge</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>Sydney Harbour Tunnel</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pTimeInterval">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Hour</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Time Interval</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>15 Min</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>30 Min</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Hour</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Date</Value>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pExWeekday">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Exclude Weekdays</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>No</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Yes</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pExWeekend">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Exclude Weekend</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>No</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Yes</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pExPublicHoliday">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Exclude Public Holiday</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>No</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Yes</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pCarriageway">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Carriageway</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>South bound</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>North bound</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="pShowLane">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Show Lane</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>0</Value>
+            <Label>No</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>Yes</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pChecker">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CODE.CheckDateParameters(Parameters!pStartDate.Value, Parameters!pEndDate.Value)</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Checker</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>20.9cm</InteractiveWidth>
+  <rd:SnapToGrid>false</rd:SnapToGrid>
+  <RightMargin>0.2cm</RightMargin>
+  <LeftMargin>0.2cm</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Image Name="image3">
+        <Sizing>AutoSize</Sizing>
+        <Top>0.10582cm</Top>
+        <Width>6.26983cm</Width>
+        <Source>Embedded</Source>
+        <Style />
+        <ZIndex>2</ZIndex>
+        <Left>14cm</Left>
+        <Height>1.74603cm</Height>
+        <Value>header_logo</Value>
+      </Image>
+      <Rectangle Name="rectangle3">
+        <ZIndex>1</ZIndex>
+        <ReportItems>
+          <Line Name="line2">
+            <Top>0.07937cm</Top>
+            <Width>-20.4cm</Width>
+            <Style>
+              <BorderStyle>
+                <Default>Solid</Default>
+              </BorderStyle>
+              <BorderWidth>
+                <Default>4pt</Default>
+              </BorderWidth>
+            </Style>
+            <Left>20.4cm</Left>
+            <Height>0cm</Height>
+          </Line>
+        </ReportItems>
+        <Top>1.87831cm</Top>
+        <Style>
+          <BackgroundColor>#d60c08</BackgroundColor>
+        </Style>
+        <Height>0.06in</Height>
+      </Rectangle>
+      <Rectangle Name="rectHeader">
+        <ReportItems>
+          <Textbox Name="textbox18">
+            <rd:DefaultName>textbox18</rd:DefaultName>
+            <Top>0.21164cm</Top>
+            <Width>5.10585cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>9</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>15.15cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Show Lane: " + Parameters!pShowLane.Label</Value>
+          </Textbox>
+          <Textbox Name="textbox22">
+            <Top>0.82291in</Top>
+            <Width>6.34921cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>8</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>0.05291cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Time Interval: "+Parameters!pTimeInterval.Value</Value>
+          </Textbox>
+          <Textbox Name="textbox4">
+            <Top>0.80207in</Top>
+            <Width>5.10585cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>7</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>15.15cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Exclude Public Holiday: " + Parameters!pExPublicHoliday.Label</Value>
+          </Textbox>
+          <Textbox Name="textbox3">
+            <rd:DefaultName>textbox3</rd:DefaultName>
+            <Top>0.56248in</Top>
+            <Width>5.10585cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>6</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>15.15cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Exclude Weekend: " + Parameters!pExWeekend.Label</Value>
+          </Textbox>
+          <Textbox Name="textbox5">
+            <rd:DefaultName>textbox5</rd:DefaultName>
+            <Top>0.58332in</Top>
+            <Width>2.875in</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>5</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>0.05291cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Roadway: "+Parameters!pRoadWay.Label</Value>
+          </Textbox>
+          <Textbox Name="textbox2">
+            <Top>0.8201cm</Top>
+            <Width>5.10585cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>4</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>15.15cm</Left>
+            <Height>0.22in</Height>
+            <Value>="Exclude Weekdays: " + Parameters!pExWeekday.Label</Value>
+          </Textbox>
+          <Textbox Name="txtReport_ID">
+            <Top>2.9365cm</Top>
+            <Width>5.10585cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>3</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>15.15cm</Left>
+            <Height>0.22in</Height>
+            <Value>Report ID:RMS_TLL_RPT001</Value>
+          </Textbox>
+          <Line Name="line3">
+            <Top>2.77777cm</Top>
+            <Style>
+              <BorderColor>
+                <Default>White</Default>
+              </BorderColor>
+              <BorderStyle>
+                <Default>Solid</Default>
+              </BorderStyle>
+              <BorderWidth>
+                <Default>4pt</Default>
+              </BorderWidth>
+            </Style>
+            <ZIndex>2</ZIndex>
+            <Height>0cm</Height>
+          </Line>
+          <Textbox Name="txtReport_Period">
+            <Top>0.79cm</Top>
+            <Width>9.25cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <FontSize>12pt</FontSize>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>1</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>0.05291cm</Left>
+            <Height>0.65cm</Height>
+            <Value>="Date Range: " &amp; format(cdate(Parameters!pStartDate.Value), "dd MMM yyyy") &amp; " ~ " &amp;  format(cdate(Parameters!pEndDate.Value), "dd MMM yyyy")</Value>
+          </Textbox>
+          <Textbox Name="txtProject_Title">
+            <Width>12.06349cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <FontSize>16pt</FontSize>
+              <FontWeight>700</FontWeight>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <CanGrow>true</CanGrow>
+            <Left>0.05291cm</Left>
+            <Height>0.75cm</Height>
+            <Value>Tolling Traffic Volume Report</Value>
+          </Textbox>
+        </ReportItems>
+        <Top>2.03704cm</Top>
+        <Style>
+          <BackgroundColor>#d60c08</BackgroundColor>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>2.25in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>0.2cm</BottomMargin>
+  <rd:ReportID>53ab065f-680d-48d2-a070-1f63c3368f1b</rd:ReportID>
+  <EmbeddedImages>
+    <EmbeddedImage Name="rta_logo">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>R0lGODlhRwBDALMJAOXl5ZGRkcHBwRsiI0hWWGeLxx+IW////wAAAP///wAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAkALAAAAABHAEMAAAT/MMkpjwg4ByEO/ZYmAl8ZYmSpqgeBDDDywkFaAoMM77qt4rvBwbMqJloyXbJnEvCWO0HxEFgiCEQjy6UTALgygmk4zOnIWZN5mdZSkD0L1HhYC90Cq8znnsBfAHJJYlN2bSYuAwRrAX2ISQMAX0t8IIZaeVc4bI5vYC9LBIF0l1NVCFKfjZ0Vn1aVapCHFABxAaWdfwO3slp1vStUeq+sR2CRp2Gzfrg3w1YBy8HHQ6rSv2fBmbsaVtJbkIGbSR3BzW9mqxOqrFQE76JDAvDvy+7v0cEBBDUf8/BSigkcSPAGh4MIEypcyLChw4c25gWZSLGixYsYM04kENDVs48g/0OKFDlAysiTKFOGbLRGh8aXMGM+SdIo06ACOHPq3Mmzp8+fQAu0zCfsZtCjSJPq/ISFWSilUKPyhMKn1lOpWJO2HPUm2YusYIEOnfXna1il8GYOy8fCqtGzO9O2hKIInoZvB9yGgVtg0VxI/DZwwECP3xBfNs1KffdXB7+D+xZ9VOfr0wCojJ/t8gJg319FLZs6Grc3qGTNGyychqTIgGsDdmAZSXzl52orijpQ+fy6d8uA7bwi4HkbCkdxHlv3fs2UYNnLOIsDjuZOj/Llr8+x0ntFuuNAu60TwL58a8EjtD9yzMvLOvnl7M4bC1lSXuMB77FD+dZp0jBFyGmWX+J5lMhHyzDxtHDfeANmt0Q5Blbg1S5D7CNgg8ztF6EncYT3H4a+UcLfQLXE49+HILr224gD5TUEaXowmCJTLBbkIYIpvkZVjc6BJGOKW/HoXHph5KjiEmxtOIVHP6aooZK+4GakaztCiZgVTTa4opVuYKNDjtZw2SV3+IEYimxigkBbltj9lqYjXr6gJZJCcplXS2W+F0qdYgoyyHux
+vVnMc+QNJahAMObpGo2HDkrbclQ1KhChR5IjKYmhGcDopY7i9iSng3pkKaiYrsUnqegNcyqq84nIKkGkQfjqpO5wJWYEADs=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="nswcrest">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>R0lGODlhPQA9APcAAAAAABs3fB05fSA7fyM+gCQ/gSVAgilDhCpEhCxGhi5Ihy9JiDFKiDNMiTVOijdQjDlRjD1VkEBXkUFYkkRbk0ZdlEhflkpgl0ximE9lmlFmmlNonFVpnFZsnVltnlpuoF1xomF0pGR3pmV4pmd5qGh7qGp8qW1/q2+BrHCCrHOErnSFr3eHsHeJsHqKsnyMsn6OtbUiJLQiJ7UjKbUlKrYpLbcrMbcuNLgsMbgsMrkwNLkzNbkyNrs0N7ozOLs1Ors2PLs6Pr08Qb0+Qb0+Qr9BRb9DR79ERr9GStgeJMBFSsJIS8FJTcFKTsFMT8NOUsROUsNQU8RRVMRSVsZUV8VWWsdZXcdbXshbXchbX8hdYclfY8lgY8pkZ8pkaMtmasxna8tobMxpbM1qbdB1eNB2edB4etJ7ftN9gYCPtoGQtoORuIeVuoiWuoqZvIyavY6cvZCevpKgwJShwZekw5ikw5qmxJynxZ2pxp6ryKKtyaSvy6axzKiyzaq0zq220K640LG60rO807W+1LfA1bjB1r3F2dOBg9SAgtSChdWFideJi9eLjteMjtiLjdmPkdiQkdmRlNuTltuVl9uVmNuWmdyZmt2dnt2eoN+hot+ipOCipOClp+GlqOCnqeGpquKprOKqrOSusOSwseWxs+SytOW1tue3uOe4uea4u+e6u+i7vei8vum+wMDI28LJ3MbN3srQ4MzS4c7U4tDV49DW5NXZ5tjb6Nnd6N7i7OnAwevBw+vCw+rCxOvExevFxu3HyOzIyezJyuzKyu3KzO3Mzu7O0O/R0e/R0vDS0/DU1vHW1/HY2fPb2/Lb3PPc3fPd3vTf3/Tf4OHl7uTn7+Xo8Ojr8uns8uru9Ozu9O7w9fTh4fTi4vXj5PXk5Pbl5vbm5vfp6fjp6fjo6vjr6/jr7Pjs7fnt7vnu7vnv8PDy9vL09/P1+PX2+fb4+fnw8Prx8vry8vr09Pv19vz29vv4
++Pj5+/j6+vr6/Pv8/fz4+P36+v38/P39/v7+/gAAACH5BAEAAP8ALAAAAAA9AD0AAAj/AP8JHEiwoMGD//R12YewocOHD/cJ82cQURJHBv0JYwixo8csSaC8IxguiUl0BOFJSZLFo0uH/EyaHDbwi8wxA4vJTMLvpc+C3nZe9AdO6DZ/jYR6+wkR3JFfFAeKEppknxehVvZRFUWQH6sj4JgOTGSSiLKBWIRKKko1nSShWAT6SzXDZCKxArnsnLI0lNB3Y6gmmfROaKh/yYDs5IL33xKqY9CRO2JSCz3BJvlpMXmE3LeVQpc07iE40z9/l5IwG4U5iS9mSS5R9CS4R2PM/MZw+xfOn4/WRoj+GwfGH+bbVKXMM9nsH7fWJr/9c2YS3maqyIVSeiZTGT0c0M9B/5PpDJPgjvzMyOwBxYu/HVRX7dpZrFzrZeNltvJFdYc/L1CQZpIZPQ3EllD7TEFVMVPthAx1VJkCj1CWKEPVFFpRFdZAMVEFTxlUOWMJVe/oIpQj/FC2ExrPCVXGhFQVOBAZVInzllDjoEFVEfxsIZMO/JxBFRjnUCWJOFSRYdByQi3jl1DxXEVVGYWZdIwqgkEhD1WhLEPVPAc1KBMwv1CljxKYRbNJElpkSFUPbsr0CzBCcXWQP0SYFAMm9cAmFD85YMaEPz+kQxtm/VDFTD2YxFBWVAdFE8Qu/IQDymUICtFaMfTw46hgPMRpEj2dcMPPLkFEA5E01/mj2E70KP+IWQ/+mNKaE/oIBYRxSShBDKQIJcPETtxAIhQ8YLSGBD81tPZFPEJB0qJJPBiDUDdGcOnlTuIc0hol20CHyDhNPrmXOATtowhmRPRjw06/rNLaL6dAdwqdMtnQT56CnaHPP9/QAN0zpeykCJKYgUNWa9s4shMp3LVGwzdOQJfEFnEC0aFg/PCL2T6ayrSPj9A5wYnFSZSzpkz6XCFYDRsLVkScm9hn8Sf/DNNsa03wQ4VMokQjmBgwYoZ
+MKjJJwU8T0MnQy0D7PAKdI/TUlUQM+1SxY66Y8bhzDPE43Boi/xYUjylMCxYMPK9mAs+7f4JHVQzjFJzED+gIg9kTqsj/89A8uoAk1Cn7JJsEMfDogKNFQtHtJxj71IvVKmD6pM85zLSCCRmP7GNOI0ekoo+xMmHCjxU7mRFPMkg0Ys4+kJixCS/PpMORWPJwA8/tB8kjzCWeoMtPKZXsglJD+8DTjd94WW0SDTf8IIQRTURRhRZiVOKLdAJ54wslYmhhRRRMGCHEDzoILNMMjR0qGBOQ8OKNOOOIY85A6IxTvze7QDIsZp5ozD/mEY1VLEIRnZCfjF7CD/51QhGLWEU06CHAClrwgv/IRz8wCBEXRCACKTCIHz7YgYGoYw0TGEABKnCCQpxGAx90QUHsEYEHOIAaBanDBy+wQIOIIAABEMAd/wpiByA6QCC4OAAQlxhEDthCBQIIgAHuQZBAAFEAcygIBYCIgoeEYIkDkAVB7gDEB/yDHxFYIgEGsEQB1OIVVzQEQUqwRAsQZBpLlKNDvrhEB2RjIEUUwBFxscQ83MMetUBBAOJwGgUAUYYCqUcBmDgNQAIRAfbwIhMD8IEN/qOIATCjIK6Iw4HgIiovAGIDojJKJmZRIBwA4gogwkcCXPENArFDFI9YiyViYBCZLEgslkgLgZgAiI4MgB3/oY4oBuAVtATiCWIZRGiC0oz2cAATCXCCWhDEH9oMQBv+UQ8DALEQS6zkH6KoAE/ukYvYaMAlq4EHIwpkFgzYpAA04P9CgagBiBT4ByGAOIF/YACIWaRjAF7QET52MRZRFEAG5lDGgeRjEB7YZAAGIZBeAnEax1zkP/IARAvgw5wBgEVDo9jFf5ARiAuwZ0GmEQcJLFECA4EAEOWA0kpaw5kkDYADgNUQPoZQID9kohn/gQ92FGQFV8yHQNoARJRiYCAfAKISA5AGjxh1IO1IYx8FggIH9FMgFA0AAgZii03mYSB72OQsvBrElg
+rkFrasKByuOAEVzOEEk+QkQcQaRGuYkI1AhIBLQsDSgvhhrHxIgEaBSIBbEGSvQCwhQfgYADYslosGaUFFmekCxC6RAtAkCCGB2IeCWBGItnAJLQgxCG//zrAQg3AFQfKBC0DEYQ+xIKpA/LAHPTiVIO0oLh84yFyxYGMNGDBBNe4hhwyQIBYkwMU/ZOECEGhgAyvYgwQwkIJr0AEG/6iGCbLxgGr8Aw4pqAYENsABQLhhnLlwAR0u8AAMpLYhangrLvjhhzTwIxcV+MMa/qECV2BAHbnUwz/kkIc3MMAP0/jANRIAgls4IATUAMFAYMCAQeCCBMy8KkQk0A5AbIAOIZjrP0JQCwlkowIGzcAG+nAHELjhArZ4gx8qUAgNc8AFDwhECKZxgA1soBowCAQFCoFidaj4IWloLSxW4Ic19KMaFfCHGzgwxAfnMg11EME/3kAIXEBASsMbcAcgbLHkD4zYELZwgAlS3BFruAADKJiFO9yAARLMtRoO0MY/QOBkFOzBD/9YwSDoIMdBrDcEd43vfHfsBpUCggX/YIeIDRIQADs=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="header_logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAAO0AAABCCAYAAAC7B1G0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAJ/QAACf0BeDL9zwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACAASURBVHic7Z15mJPV9ce/577JLCyi7AqZJMDIJLOBDOBWlaqtS12AJCou1WrVqrW11mr9adXWurUu1dat1l20ySDWBa37LssAAjOZQZBkZkAFFRAYhpnkvd/fH1kmySSzKLh1Ps8zD+Ru733f5Lz33nPPOVdI4uvmPVvZYAuMl02LmrFvaGn4a+9AH318h1E7u8EF9n3cC20Vv1tcVWXNVcaA5RoAE42Ivj5nQyKqxlZxwaJR5fvv7D720cd3GdnZI+2iosqnQRwDyDIN87SpzSuWp+YvsZWNM2HUA7AAIEVPmdK0oia1zOKi8rEa6iEQBwBYMbl5WcVO7WQffXyH2bkjrYgC8YPYB1YqqAULbZVnphYxxbgCMYEFAFFUN6Xm1xRVHKepFscFFgDKFo+qGrpT+9lHH99hdqrQLt6rYgKA3VOSCgS4b1FR5YPBsrK8JbaycSBOSa1DYFqNreJIAKixTbiBlLkABqUUEa2iB+3MfvaEsjJf3td9zT766Am9EtpFoyqPWWSrXLrIVnEyRDrV1YZMy1aPxCF1dW4zPsoanfKhrgAACg8EIJ3z0andxVVV1prRE05daKucX2OrOLs399EdzlLvcds0/r0z2+yjj51F70ZaJScAmADIozWjK5YuHD3x6LR88pDsFXnn2NFBZ+Yom5K//wJbeYUAf8+WK0hpV0RqiipP1OsjKyl8WICpFDmtV/fRLdwz9tdHH98+ejk97vghE6gQ0c8uHF35Vs2oiQcAAKnuBrE+o1KrCX2fCcslyDLKJjBE/UKGW+cA/DjjmlsgvAUAFtsnHLhwdMV7JB4H4Owogj4B6+N/Bkv3RdLYLTNBBAdS9NuL
+iiqfUQqXi2ktMyVylwCeeJHH+keMtjYrT+qqYRIn92vaccm2fONeAa6KJ7+qtD6DFmVZZKucA2BGp7lzjIG9vI+vjKPUczMoR3dfMo2Xw8HABbukQ/+DjKucMdyMyBgAgDLCoVr/J99wl74WequIGpAzhzgGxJGT1tV8NqV5mRfgKQA2K/D2tjz60L1gDdyWZznFMKz3APiCkAsnr11+2KR1tU0gygHM6KJuv17ex1eGxCgA43vzR2D0193P7zNmVM0g1HuEeg+aJ37T/fm66K3Q5hQ8Ieqr1i6/eZFtwj0LbOUVk5uXP0a2j5vUvHwFqM7qUWeEv5gUrvmYbB87pfn9O94dUTFska3iERmeNw/A811U/dqFVgTrAKxM+yM2pBT5NDNfgLVfdz/7+P7R2+lx7pFWYdGCcVMHqB2tPzegvDW2CUdMWVu/cL6j3GVA9ciqiUDFwtEV+01ZW//efOdEh9WKVwFxYn37TQAWAXJkjqrynm3/wv2a323t5f18acJ11RcDuDg1zen2/prArQAglFtC9f4betqeiAh3sqWLTJtm4WuvRXfl9Xtzja9SJ63+LnhW3yV6K7Q5H5Qm6yw7Wl0aEAJ7AHx5ka3iGCnovxRm6woA5T1ofJtSsrXGXjHG0PIagKJY28oFoA6S+3tqs3z8rf8Si0o8VUrUfQAAQSAc9P/Z4fLNgvD/7C6PDcBuzjLfSE3tE6ofAygCOArgF4BaDeF/hxYO/ltNzT2RRJuOkpnTIMatAECl79eiHrVoXkrgR3YMrXC4PSGIPGVukSubm/1pLzVnmW8CNf8AYD+7yzPE4fasFsgKKrknXOt/NXkNt/ctUAZC+Fk4GDjM7vYdLuRPIfihHUMHO9zeWqFUh0d++tdcwmgv9ZQqyu8ATLRjqMvh9n4B4H0CLw7rN/jW1HuKX/MfoBwAAJrGURarmDoauR6C44pKPLfb3d6jhLJXYoOQwCUOl+/02LPVNeFgdY9md99FkkL
+7vnPi7u1RfbsAEwFYINgOcgsoWyhYOqV52dWITfl2z9oSVVCLHpeyzToQkOeNHdtnmpSjlGA+gFFd9EWLxiwxdKvW6nUAtmSOoESET3bxbm05JBTaUVNUcb6mHK5iCrPdCPQHYApklSHq/IlNSz7qwTPZZRgiAyisBAAS851uz/EQeSye3QYA1LhLIMenvx9lD4AOEId9vn3jac6J0w8KLZ27GQBEySAi1qZQygzyZca+w0TdsSAuNgbyQJFr9iev0kBc2JV6CWkafXERcEHT53B77goHq8+LZ5RDOAjAeqfbe6IAj0DSXviTKJzk+GTYjDHls45Zs2J2cgdBRMRR4r1URK4mkJ9SZwiAQwU49PPtG09xlvlOC9X6309kUmSsxO8LFhZqM/ogBAcCgFIQEpWQtPb2gnCv+FU3d/9tfHdJrmkj7foHApwKoAxACYh9ADkEgmMFiC/y5dPcLZmfADIkI7WQkKcEtGnoowBuyVlfcGl7e9vrmmoeUgUWAKCLxbTm1gwSnwIAtTpOgOMITCMwCUAJgFKCx5uMdqXI+toRwE7I/SlJZiydMaMOYoOIPCPE7QCS9tsEytFu3Jij2bMQE9g6EA8ASH3eU4vcK2YlPxnqTsQE9jOBnEclXgBPAGiJXUg9kqX9IQQeBdAqwnsB+Z0ADwNoBwAKJ9OM3JFaweH2nE3h9YgJrCmAn8BlAv4NQChxT9R8zl5x8h7ZbkqZ5p+AmMACAAkTwCOAzE+kCWURgYcIPCSUF3I8n+8FybelRRvzo8okslgkARgBAAQ/zbHlAgPYpMEhWarniUi1WPQkRNUJyKJQInj/lKblf11kq6wGsHfnfBm89aOBm/uP3pj94oLPAECEI3INxpr6rRxZ3wyCI2L/yhwl0T+xZdBKAEDrgKdU4RbHmvo5janFx5T5pmjNBQBAys+qqs65IHNKCUCEnBWqr34cAEZWnvbLgvbW6uS1KIcBeNQ5cfruoKUEAAg8Fw7674
+rXr7bZfIWWAZwaqve/l6XXFoBhmjg0vLJ6TSLRWea7lZpvIDa78dpLvYc21gVeGeOeaSfUX+LFtoByRGq7IytP+7+CSOsjAKYD2EuibX8DkM1Q5iQAm4VyUVTjpeaV/nUA4Cz1nEvKvrE75+zGYOC2nM/7e0RypJ348ZJPAczPUW73xVVVVkGadjQNU0c3AypzpE2wF0yjWo2wviKChzPyPhgwSP9iYdGE3wCYmbU2sdshfC1KYFuO9j+LFcPIHPmhKWtrl+Xq+zfI/eE6v2dN7ZPLQqEHdgBAKPTAjjXBDoEVEQGANbX+hRB5J55sWb/9c0eW9j4KN5QnzS8/WfZwi4DJ5y2Q8QAQft+6FfFnKcBpDrfvksQo19zsbw3VB17P3WV1QWOKwAJAbFor1yZLED8CABPqBCR2HAR/Cme8CD5Z9nCL5Ed/htiyC4CcWFx8VOqUN0GEwgND9f4HEwL7v0zalo9odQlyKJva10eHU5Bzety4rnwzyFxCCxAH6A2Rm4yI8VsAySFTwItat1qmCJlrygclMaMOAXKsVfhZQHwGgKzeQAJckrNf3xzbLVbz95mJo10zhjhLvVc73N5ah9u7xe7ytDrd3uVOt/ffIJPfl4Vqr8y6BJ5OrFkTRKBfTClQCACk3xTwX/FUAXiTRNs/dpR6HnOUeiYiN+2NIz79b7YMk0hOSbVIJQCo2BIlli/yVLZ6sbU5E3WtbUa/bArLexvrquu66Nf/FGlCW7Vu6TsA7stW0KoxXOmcQrvVS7+ZZU2bDvFLraJDAF4W+4h5Vc3L52mNv6MLTTaZtMTalDVf1KcOR3BY5v10XGPZnC779Q0glLrVy55Mm7kUF/uGWcRYROIqAKWIjVLNBEYS8AHYr6M0O61DFPBFZpp1x6CWbNcP16uLCVxGsDmelA/KLFCWON3eF0eNn9XpBUhwfc6tGgPJEVDI0bHyGJNI0wU7ulACSnJmoQT2TtnEq53S/ofp9CNvU7wUa
+dNgfgzhlW3tO1ZTyceZ5ePEFB7CrIqEFAwqdf3ktSvuA/g6KBfFnA7iWsJcSHKKlV2RRb1+D0vbJiF/AyB16taqFH/ZTZ++Eaj0qsy0iJXXocOm+k5lWEeGg4HicDAwXBnWkXGl1M65Pv1mYzBwY9OIz8eA9AjxNBIabOBwqxF9PLOOQEaNqjo2qyGLhbq4o6A0xMojmMxvKXDl6ovELMYAAIqqNjPfhHR6Vv/LdBLaAxuXbwLkYgEWA3KqGpFn1xb+M68wb6JpyIIc7cSnXdjR3QUJHr9wVPm+UQw4asra9z8Q0f/Xg34m9hcLs2WK4L2NbQXlphjPTl67vFiExwvwGgV/rmpcviZbnW8aatmaJTXh+N9CS94VqVsna1bMXq8Vt+/0frz2WjRcXz0nVB84zjRlLIC4lp7Thpf5Mo1plHV73hlZ22GKpxW5DAC0cHEiSUT/Klu9ceUn2QgcFf+4NbSytJOAWmBkeVYZ15de2xx8Z8lqxji5+f1Hq5qXVZkWeVt/ErlNRVQYlBv2DS0NE2jMUmUQAChhp+lZduSm/Zrfba2xTTwEaVO+nMTaZdY94u39d9PzRavfKuiGhaMrniSwqap52Q+nNC37c8/6821BmfH/FKq2thGpOcXFvmFCmZWlUq8RuUY5Xd7/ON3eX6c6+zev9K8TIKFljw6Pb+Vk1L7e4fZNT01xlnrPAXBu/GO7mAwAAIz8RwDEp8VyqrPUe7XEdA+xeq6THBEzWo3YfjoIXJu5Ju8KapWceQnxI5FrFADk2jr6vpD17bTAvo9btHmZAZyUsok+ZUHxvrspwesgfppRxXhnWMnAvIL8HgmtSMwckqL/L7eNVVqNRLudhZbyjruuLrpodMWhAJQAx4Fy3EJb5QKl1cXxdfp3AoF+hZAyAIqG/NtR6n1EiLUEj4JVjgYweGdcp8hdez6JYwEcu03zErvb8xaoghIz/Dg+Xuzt2lp/ptC2Ibbt86TD7akHpB5gGSDJ
+bToR3hBaWd0AAI3LH9vkKPWeBWIeAJC4yl7CXzhLfQtIDoFgHwEKYveOtxrry/7am/tgzJ478f/D7a7atQ63NwKReiC+zfU9JG2kXTC6cvRCW2VAabM2bmiRKtSG0bZ9GigvZ2soL8+6O9hZEZINEcxfMLpyNIjDetZNfoHY1segzBwRvrSgqHwiMjTHAkyl0m/XFE3wz3dOdPTsOt8sLUpdASBhFVQB4i8EHgfkVKF8COD+Lqr3GJqWOfG2NIC9BHKCCK9BzJNKgdggtGQzA9xMrQ8HsAkQV6x8UmBJ4Lb+otJmN+G6wPOi5Egw7iwhGE7yGAD7IyawBHhXi5KjejPKAkBjvX8xUrTWAPZE3PT1+4wFAALiMxyjV14ggmulC6cADRxpot9FFrTchpgZWhKBpUgrrpYe2HETWG4IK5jVjiMrHywYVTFKdXaibzOixoO06nNzmUWT9BpRHrvIVnFrfkSurfhkWVZt6k6BslRE/w0AtMKizOyoIWstOpZPJZ1mABtq/duqqs6Z8nnr52dSy6FQsqdA1xFYYIm0PBbNHzANWm+NtaXWAkCU6kNL4pqUtzPbDDvCUcf6IbFriqwDgKaGxz8CcGaRe8atAuMoiY2WsfWs4L0C3X5PQ0Mg6zqysWHOO7bxvnKl9FEi8kMAwyB4HxpPNtYH3s1WJ1Trf2HsWF+Zma9PATCRkHIlsp7k+yBeCNdXd6qnwLkAG2L3aua0pJMdA6az37YLBHIQNEmFt8jo99oiShYWVZaK5kNM2VPLBYFt7YpFeZTfCnF5Wp7IxdD6PRHJ+sWlofUBVHKgQHLuzaZ1UjALRDuB6vT+8H5jRN65en1kDXrmq7oGWp86ed2KLvsYt7Q5PRwM7NuT/n3fcbi9mxGb5awPBwO5DFj6+JpQ0HyiJwILAAIMyDflXCuMfwCIpOfpqYMLW5cgq/IiDba3R1ZID7x+EmiF+RqY2qkh8G96fbsPPXcuHwOl5q4uLs5mddN
+HH98JFAS9C9EhuHBg/tbPAXkgNZmUqeNWrWqDdJ4WZrDmgE8btiKmcOkB/HhKeFlIMoWWeDoWCF0uzlExFx+NW70602a3jz6+M6j21rYZBO9HF76yGYzctKPw8vYdO36LFEMGAew1oyYeQLA7DeCyuMlhzs32jC7evnhUWRGA1KnqZ7Ca5ywqqjgDaW5o3fJCFOahIHul8OhDThZwuig5/ZvuSR8px4IsGlW+P5RxZ7fWSTFMCqZBMyoib6JDy/zm5OZlBy+yVS4CUJWj7rOT1y4/duHoii1dKb3ifNa/zXS25FtuBpiIbUwRTtda1YtwCeJ7fN0QovA3U5qWZ7V/zaRvTdvHt5nkls/kdSveDa/de5IIZgGY04VHDQAYQjzWbqCBIj9JKXvQwqIJPxatfo0OK6ZMqkBSIMtz5CchcNmW/tahABNWOBGAp/bbTT8vio+ja4FtA/AsidNbLFvcPRXY7zt2t+ewMSW+8d2X7B0Jb6Q+dj1pxhUxo388DuDx153Ogn6R3Q8V0ccDOBbA8Iy6tnwtrygdPT5qUYeIltkA9hbyDuZFD0JUHQnIM+gcDG7ke7YJoyzAUsT26rJBUs4bXNjy6KbW/s9AYAWwVpT+WURzccsW47mYk34nWgG+QKCaBf2enbpqfm6n+52Aw+07GuCVWbI0gEZS6sWiAuEVT9Tvyn70krMoeAGxYHNfmTHumQdpqOvtLs94h9tLAP7tSi7dUOvv6qWfxOH2XikCI1QXuLon5YvKZk5WWt0xQMlBWYw/vjTx+F7nhoOBkkTaGPfMg0L1FW9n7h87Xb7LKDz+m5qJ5bTXPCQU2gHgOQDPQeScBaPLygwRJyl2ijiEtEPgoBgvWCBnr1m7t9s+auXJIjgfUWMeLOZR0m45mIp/AxKHciUvOg2W6LWIGociFl0ilRAhFw/YPfrc5i/6/xvCYUL+Zpt1610DowOLLZAXQBDEE1RYA2KNgvpQdGTNpI/q1n6d61Uhhl
+HQKkouSk2nNhVg7CnCiTDNlx0u74Ph+kBPbKy/UxSVeKqUUk8JeX57//b/5G8rsGnFW/tR3wPg5J60QWAsiNOcLu/rXfvxAk7nGQWqUB4C4Gpp6b9Tz6HSSl4UnW6iq6FedDjCuwPpNvVR4DkDsmJnXr839MzImtRTYyFPsk5pVxcX58dH6YcBPBwQn1HsWDVwwrqlSwEcVGMvP5ymmg6RShAtomhWhWo/WeQsmyam5XaSTkBWEnzdGGF9aFJNTWTxqKp+u/f74sRxq1a1pVzng3GrVk3ZCfe90yDwRTgltlEGz40aP+tuqyWywFHqDYbrAo/lKPedRImcJ8JAKFid8AhaWeSe8TtFY9nYsb7zPvzQ3yMLOYq8COgHSkqOq2ho+E9O5wD223YttDRCeqrE7DmNtf4gUrySuqK53r8CwLdcaOPU2CqeJWQigI8IrFNgE0WaRPffushWsY0AQbE4bWKJRLWxcHRluyLXmRbrOku++v2kD2vSvsTJodpPEPMTRXB42YDtVmOU+UnkB4tsE/aC0oWb2/qbC0dXRkVoEqBC4YCFRRMGABgt1A5ARgHYC0Bzy9rBBx3CLx+Wc1exbuXsz+wu341QOBVAVqG1V5y8R9OK2Zt7Eha0N+FDbTZf4aBBMHs6jRTxGYy9fHuGYCQpT6YmmWbBJ8qImNLP2A1Z/HuzoaCfAmS/HSrvZgBZD1Ozl/kOFOJEah4khnyY+x6++fCqxcVH5Q8aZNNZwgEBiH3fjcsfy+obnopMm2YZ//FuhZkvsl4JLSEKMSHZS4AqQmKWoxILLSVALA4CaQqkDpAlNPCxYZobtNafLbRVaAVsrmpePi/R5iJbxcEishfzLQaBPRQ5guAIAJUkJ4jAmmibADrMJFP0HoINh+D1nv/Yvm4EIWF6JMox5bNGmLr9BqH8UACL3eUpcLh9S0hc1ljvX5xa1lnqPY4xJ4197C7PUIfb2wqRFTTNKxsb5nQyh7S7vD8RwVXGQ
+IzbpvGFw+1bKuC/Q8HAE53KlvncQn2mUI6xuzDE4fZ+DPApi1Xfnumkn+XG3iH4E6QETrAa0XNACa5e8XhzFxU7odrkQjOfy51lviNCtf40M8SRlaf1L9D6QQBnq37mRrZ1/GxFRIrcHg+IkwWYaHd5hjhc3hYIVigll6+p9S9MlHW6vb/WQH5jMHDjmDLfFJP4o5D7CvQRQrUbBSeHgoGfxte3vwaQz8JtK+NrdRCc3xisPtHu8hwjCj8K11X/EgAcLu+fofihkEENdZnk9R//2faN/exuz3uGxnVrGqqXF5WctJcyIr8HZZqA/R1ubz4gtzbWl96cuWYeU+abYmr8xY6hxTsEZizcLO8KB6v/AfRSaCevXX50ja3iBBJexKyQRgvxhRZ8oCArIVgJU1b2i0SWuTfU9kgRMbl5+Ru58l53OgsGRAdVgBgPcLwWjFfA3gSGC7BOxyL2P7u9efCD+BYHr1ZkFQVJ526Hy7s/gH8rwS3Ij14UWjp386iqY/tZWvNmCGWe3eW5orG++p/JBshpgFosMG8K1xuL7GVqb5h6hoh6wu7y/qKxPvBsoqjT7b1BBEeK8OxwsHwReZV2jveU0JC/OF0+R+q7brRrxhCLGK+K4GpLJL9q9erHttrKThijdPS8aMS4AMAfurovU+Euw8S5dpfvbNJ41jAiVxEyQX2JIzo+/ND/hb3U+zOYfNA5cXp5IkQsABREWm8C5NVwMDDPOXF6mqcXSTpLPYdpyHta89rmleVLnKXLykljutZ82u72ndoY9L8EABDsrogCZ5lvgta6GlA3a6WvHF4w9P3Pt39+tBYVc4dsHXC37L75QbZZPlGGdQotrW0AsD1ijQKAEumvyWHJPgBDFDCUYpwiSp0fXvFEvYiIvcR7klY6MKbEd6wheASQu8L1Zb8ir9K28b5RhsHH7K7a3QAklZlOt+8EQt8AqLMb66tfJklHic8JhQccLu+kcH3gZ71zHCZZFQuz2emN
+vSuIK8MWxv++k4wpm1FJMX5DyhFATJmCQjxE4hfhYHVS2NbVPL0dwKOO8hMXi2nOd5Sf+HZC6xwKVv86o9l6AH+2uz0LFOROAM8CgNPl+TEFnki/9op4ewCAuKvcMQ6352GBHArEPGMsUIcAWBWqq747VvJRAPgQGScn5KK51r/R4fbcIMAdItH/A+TqpvqyX/TWWydBY13gFYfLO5dtljsQ8zKD3e05TESO2B6PO5WNUF31ORlJywAsKyrzLVGafwWQrEtgmGjeJODUcNCfjMTidHuSleNB9nY43F5wW/4XodDs7oM7UGZpbYxvqnv8o9hnEsBse6m3TCuuEMofQnWBpBVh80r/uqKSk2YpFV1hK/Pd2lzr31hc7BtGK2+jUofG19gAgHCDP+R0nnEEC7d97CjzPbpTNXD/iwgw3FnmOyL1z+H2He0s9Z7jcHse1lo9BcjpiSkvC7eeCaAhdXRMJSaovINm9Kps+ak01c95hcCeY8f6BgEARa6gUpelCmxaX/PNC5ESMFwr2QCgqLjYNyxb+a4oLj5lN0ep5w5Q/ZyxkWIPTTanCqyIiNPtvTFbvKlcmNvkUoBTHG7f9LFjfYMEcp8GTu/pFlIqzcM+nQdgXFXVOdaU5DM0eFM4OCdX6KQvBYE5ce+pNBT10wCsYrE8kJnX1PD4R4TUWkxWAEC7hecBnJsqsAniL5IANS9MjrQOt2+6QB+c7ITIhsZg9fXdLertLu9PlDDpF6spL2f+IIvKTxyrTPN8AcoYiwe0DSL1IOsFXByuL09GEXS4PDNFOraICLUiHPT/Cxk43d4bABYkPke3qt9nHnuR2TeILEt92+0knFrz3NQEgYwlsQehztBbcU5Gv6YS2X2SE1CpF4R8KPG5uNg3LGLluYDsC3AvEBshCNtdnjCI7bRipIhssbs8laZh5gqDi9DSuZvtbt/SxAy5OVj2TlFJ7fMRK+sdbu8TWvPBpobqmu5u2DbeN8qw8l1A7mg
+c+elFfO21qL3UExbKk06X99jE1o3D5fUROOyjDx6/DJjdXbOxPjX7W52lntNIzjUL5F1oBJqCgS5jVjvLfCNBnktiCmI+tZ8DDNsxNAxgx8a2rYOB+LnJgpWNddVdPv8vSda9eFPnNSkV3ZQaOigVAZu0xH2ABRNJPOcs82X3pCL/KyI3WDoq64MJ6YjjQ6DI7RkApLvgZaIEB6bWU4IdiE/XYvN6z01K8CsA1jTpJ92xywjsrtr3HWW+i8O1/ldFyW4kOvohXAMgTWhtZb5xBnBpqjLKGISngfSofQKcT0gygoFo6RSy9KtCYEFjMHB8apq94uQ9JNq2BKSjubn6pbQKosaI1v/pqk0dQcgwYBMRcew9czyt8jaBZ0U42xB5i1G9O5U4QY6hCKm17LX3SUOAyIB1gzd26QAi0I0JQ7j4i/Jc+3jPTWLI6UrJHIfb+znJu5oayv+Va5prGPwjgJpwXSBpZ95YV+23u70FEDxtL5l5ZNOeGxfYMfRaaH12b7W5obrqBQ63534Qx1ujLV3u99pcvnJD+CqApwR42DAs72i2DdbaMgaEE0KDjKZqLXdJKFYVD4qXiWExNXVuzzcCpqIoABCIDYLfUfO8rIVjRmebu1zTCvF7p8v3Qaje/2BPO5+K3e35PYjf9qDoBGi+4nB7LjCUesZM/Y6JMWPKZ41IfVMpU09DhtWcUB+MFKEVuUbZXenxp0zqXfGG7UTj8sc22V0+jwhftbt8S9K0wdQNhCoFkDOsqzK0SyANJOlw+24G+GJjMHB6SpEmxPfMnW7vGUBsa8nh9m4s2jBkPICcP0yhKkHGyy0efPwPItdc7SypPYwif7eX1JYDuDB7I9hfJN2gBAAag4GH7S5fgSg1r2j90NkiUh9qmPNarr50xdB+Q67Z1PLFw6tWzcsqDAkM8DaAgZRzhwCgGbF1Lexuz68lVftG/a0M9BeDKwF5JdvMMpVu17QU3ut0+Q7urlwmReUnjgXxx4
+zkrYgdC/Ie0ClyY6M1UvDIh7X+JgCrUzO0GU0zdxSRaZ36SUnr4+iSulKkh6fZ1LyyfEnv7uLL01jvXyzCS0V0Q/w2GAAAEoRJREFUdWqgMSHeEuH01ABnmQgwg8CbsU+cJNBZQ6fabL5CpoQfpUgNKD/J1a59vGcMJbZ+ygZ5lV5TH3jRFJwJwU9z2hMTm6h11t9OY73/XgHuEuBcdARE7zU1NfdEPqx/4oNuCwomwbDckS3LOXH67gIZnV5ceqMk+3p3JCg1EOQ6zjVJTxRRVgqftLk9xd0X7UBMvT/Sw8MsH9pv8JBwMHBUOBjYf2i/wbsJOB0xKxQtlJ+uWvXoFgCQ2HSnAzLTRrmT0AKYmnqkhEU6DmyK89qX1Wp+WUJ11XeD8o5EI48mBCDcoB4VSsTuwmXZ6oxxzzwIkOOiNGOKKKIOorJqTtVuvBJAMpqiQP9egMuc4z2ZpqEYWXlaf1jUnUiJITymbEZlSclxnQ4Kt2gUAshp7EHiv6D8MptQ20u9hxI4FcQD1LjXUX7iTrdeyqCOpjk5az93WP6ItA39XrNB99t2QPfFdg6R/jvuBvUEh8uT9XicojLfsY6SmdN6uuUz2AJ5zlbm27e51p/jFKx0hKxIs38QPpVqIRL//1MivmeKxpv7hlOMBDTwiqRaxkiHY4FzvKcEhmRbqBe05fWfgngIUJIHpNtfdK382VXsyCs8pyDSutDu8lwB4E+k37S5PScbkLlOt7eCWt9tNY3aNkPblZLjAHUqlZywtvbJz2P3of8AqqccLm8Rqedpi7HeII8HMQOC15Fi+B+uq17qcHsvoSFvO1y+62jgBasYW00zekABcCUFFxL8ucTf1Vqrk3co4xRHqfcWmvo9Q2GtCeMgEVwG8KZc9zTQkOu3abxhd3mftZfMvM6az1XRiKoC5CgBjtGaxzU1VNc4Sr2XwzRfsbk9BzcHq3dNwHGtrxCl/A63d5wIn0MUX0DJdApmQPAfZA/52
+yOEeArA1U6XxyLExxAZuaY+8GK3Fb8k62qe3j6mzDdLawYcpZ79QT5msXKtaVr2oeYxCnKQqWRGj7d8CBQbmnMy1Oe5yyumWcSQcpa91HtoIjZtR7rfzLTqyWtXryF9ajIpGZ/XUNlGWQCAIjqmyMK0N2QUO389SwNNisgVwB1A/JApkzMBTLCN940CgOZg9SppHVBFwTIaxqXtVr1YKfmrAFZTyT6Ntf5kgLbGhjnvQMsUEX4mSl1raP00NcaRuK6xLnA5gJejUEkzt3AwcB+FB0P0BNG6OmJGqwkUU4m3sS7wilAW0UBTrGz17zTMH0FjhIi6QkPNhWi3Vvr0hPVNNmpr/e2NIz79AaDniTIuj0YsrwByCoCgKJma0ECH6wLXAbjPoDom5wMSLoGOHXnZE1r1wAiB/wwZkmcCQLhhzmumkv0A2UrKX2moAAWjCLk8HAxcC+BFWCOxpRjRoHMpogQfQyM9dtiOAZeK4H6KulAb6k4tGAcAWslaoSQjtCjF9zWZ3bTSGtlBYaeTIlPvP/F9ALGD1iQ/WimUKKDuiEaMhdT8OYg12xX2aw5Wr0o6wTvdntvStMfC2YgZBKTH2iUeCNcHfpb46HR7byBwace948ZQMHBZUan3B4qJdVka6wHMESIQbih7M9eU1eH2LgOQXH8J9H6h4Jz5TrfXT8AbT94IcAsgjnipl8NB/+Fxa5O1Kc01hYOBzmfE5KDPCb6PbzM5R1qBrBLKDGQGahOc4XT5sq7HUmkOVr+N+NZPBiMAnEfBa3ZX7Ud2t/cuR4nPmaXcK6kfSGN/EREChyTTgLcYmyImUvavqjrHqiw6fR3C9Lb66OO7TJfT41C9/w0hO3ldUHhdrsVysgxJo01OAWReF8VGCHAuFINOlzdtD5WZJ6Up7F/knukGkLTeEcqbSqtU2+V+n7VsqlJaMpQH38x6to8+dgXdrmlD9dUPgbguI1kg8khR2cysWrsEH37o/yIc9B8NrX8I
+YC5yh7ApoOA6e6nnlERCIdvfANDhakfuLzp9Paup39Rap03BKTyIImmaY2Wx9I20fXxv6JEiqrGh+goB/BnJhUqrpym0dVc/3DDntXAwMMMaaRkK8GgIZwPoZB8rlL8k/h/3IUwNx7onBKkntm1tXqmWNq6sXpM8ciJ2QxlHZ0ptLhOyPvr4LtKjLR+SdDrP+CkKt9mRHn94JHpxklvcumUegHklJccNbDWslwsldX080jbeN6p5pT9+QDFfBST1IOVkXCiKvJvisP0G4uFNmBHahuAunRonXLCocJpQj4fIDhD1AJbSkvf3njg770pivqFydDjoP/yb7EcfO48eb/mEQg/sUIb1OPRi38teMvMAp9t7g83m63SubEPDf7Y2Df/8SiA9WLph0R0B5DRzTmsFTE6LCeb0yd2VSiiRa5TD7f0PhBeK5ksGLT9mlEeTfADA3hJt/8Dp8mSeMPi1Ymq+LSlO6n189+mVP+2aFbPX20s9RwvlXQC7dVXWUeJzilJzCQwzdqPX7vL+Ki/a8lKqLan948E/gEKqoUT7AFHJfTSr2fpuRPXfgfhxiKkwFm8ZAGBQvaklq/FONL423iU43CvOBmX3xno5ICNMyxoAz4xxzzxIK9WTuMy7jPieabeeO318d+i1P21jXXWdkD4AOcO7jB3rGwTFZ5HQ9BJjRPBMxNp/q8PtXeJwe2c73d7lUCpzFKxJjWcUF/Bs58vuGJjiGL+mwb8SyHK8iciCrgKFfWUoPwTk8VxxldYE57wZrgvk3FiXaT22SNtliIh0ZQfdUe4a1ZPYxn3xj3c9X+pHE6qv/q/T7fslwTuz5bcMKIgWRlqfJVAMINWCyorYMR4Ts4yLLSbl3MxEIV6h4NCM5AWZwcoEeJPxIHEdaXqXao0J7gCku1MS0hC5RhW5an8rkBPsHDra4fbuAPAmoH+X6pjtcHvu0xp3NzVU1xSV+Y5Vmr8RYC+YPJaG/MsaaflhLg8Yu9tzmEB
++Gg4GTnW6PD+GyLRQMJC2tx6P2XyR3eWZABD2Ul8NoOc1Bcv/nmrwEm/rMrsLpaBHOd3eZabgT0116T6u8T6eaHd5jnC4vVtALBLgH92FRe2j93zpyBWhoP8uArdly/tk2cMtoWDgUhhGJTL3W7PzMcmT4qEp0xBDOgmeSOc1LGPKqDTMXbw/S6WeBnixo9TTo/OEiouPyre7al8RYKKhMD1cHxhBS94EEO8DatGYEk+KB46MM0QGOEu9ZyjNm0iZbSp9cmhldQMBS7t1gC/3leQSkfhzF9lDg47UXIfbewug/wIl15lbxRbp11YE6r8K1PF2V+2LCa8kp8v7e4HcRiVXN9bL6AGG2IT4qyIecbh9Zybas7s8P1fkjQTvH9pv8AhlWKcK+CQFt9jKfON6/kT76AnJkZZQbwhSLApF5YyAkKCpvuziopK6TUp00tQx9WDjeIyjQ50u7yEEJlFQLkAZgDEAPhLiQwhei26Ve5qbA1mPEQnVYbHdhVsFTL5golpVZ5YTWuZBIn9L9gPC4YWDu72Hr0Jjrb/a7vaOEcrzDrf3IwofjEbzZq9bOfuzbOUjef0vFuLTUDBwUrKNmHb5Zofb289U6g4gxX4asq+mnhDt175PaggZBblFg78B8EjmNZzjPSViSIWlveXYbH2wl3q9Avwo0q+9KiMszcsybdrrRZ8M+1nTkI+2Oko9EyFygamkPMVJxATw4piyGcdpbbw1rnLGM6uXPbkBok4R8ppwMBkRYj3iJ1X04DH20UvkWxzE8Bujt7bHVVXnWD/bvuknAH8O4BCCT0Pkn03B6lcT7m0iPsPu4iaLYSnNFl50bJmvyNQMa80pTQ3VNQ6393UApRarWZoZyjTe1odaaW9T7Zy0o0Udbs+dgHwUN5aH0+09UYPHNwarT4zlexuFclqo3t+lgs7h9s4B+GouxwGHy/c+hNXhYOBaZ6nvaa25uLE+cE1PnlcfX41vXBHyfSDuZjgXwFzbeN
+8oZeAUIe+wu2bmOV3es0L1gdeLSjEexKfmtoJPnc4zOmnDgf4bULjtTcOQciS0vcTj2WIPk37T4fLdbmh1AYDkllIsvKjFEzGt7mz9HF05c7QFaki4obTLmEtxJppUV2fvKyAF/DeACbH+mFcL1PNOt/cACh4yt8iTmfG6+th5pAmtw+XbD8LzSLTAkEcba/1vi4g4Sr0/pubPAdYbSt0bEWVVZvTiRIgPm81XaBnIh6JKLo+HrEzSGAwcb3d7nwIAEbYQeH6gKP82jVNBFIbr/X8HAHup50KIWiImp4rI9lDQfxcAOMt8R1DzJwaN26NiJn08RdgytHDI6Z9t3/iEacqFzSv968ZVzhgejRh/gJInqZkWKkW0XBRu8PfYBezLEjcMuRHAjXa371QIn7DZfE41QI+FyCgWbmvosgF2RNsgpDZXMWs0776ItW11cbFv2KpV/k8BgDssZxJ4Mtf03IhICSCh7oIBiIjYXR6bIXyWhdtyTsWEsZAu4eCcJTabz2HsxhkgzjAG8g6H2/u4mLwjHr61j51IRzTGUu/JEFxEwaWKHE6NaQDetrs8f9TEZCi5VhGlpuYC6NZJUNZDHe6Z+4SDc5aogfCAyLdEtIUGXKLUCakXEeBIUTJVQwYIccNWaiignCK/dJR6PwzXBZ4HZR9FbtDCyQCm21y+ty0FkWZqy30AtmmJPKqgxkDJaQAQNcX8/PN2A4WYYRjYq6zMd7Bp5veDRA+ztuGaqFXfQKjfCbAK0HPbB0S+dlPGxqD/Eafbe6UxABNMQYMBbAoHA44eN6By+GgCWLXq0S2OUs8jUQvOAnC9yDXK7sZ5hilH5apjgKs0OK674z9isak8a0SpE0K5zylKIz6yPgbgMafrJAcleiENWTCmxDclviXXx06iQ3tMnAutL8lrb3kbwpBAv2Qr8w0GcbppMc9qrPW/HaoL3CPAw0rlnyHA3aQ6GwAEPFOAf8SaQSFMTICJCbrj0GiGav3vD
+yvYYwE0w9IxmtwF4p/28Z4xGf162AL8C22WvwFInitLQf9E20ZH218AXLFN89ZEuVWr/J+GgnPmk9gAYSgUnDM/Vyzgr8KoqmP7dVeGIDV1ZG39nNUA8saUzejJod0AAKVz74UDgCJvp+DnIj7D4VpxLIhgVwKyJjinEcDGohJ2G4cIghqYOKLbclkI1T8eDgcDvwHwDg2e1G2FPnpF6pbPMGXhxu1q94Ea6lwN8RsRToWg0Kp00jtHA59DuIe25D8owPTYdgf3DDXEQoUKJR/CEghLQO4Zr5bvcHvDn23fuBFKCgp05GEAEGEthZeJIXMVkBQAAZ/TStcRKKbJW5I9JAoSbYvoEYlka6TllwCmUqKn7prH1JlxlTOGW7fnr7GXerPGSgIAR5nvh4DsMXzAkGUkKYLLtbbcnc2YwWbzFTrcnvN7GhkEiAkhwYV2F44l5FdC3Nx9LblABH8f7ZoxpFPOtGkWh9t7hbPMN1KZ6o8UXpxry8bh8s0aV36STUSkqMRTlfVKIlFq7Drjlv9ROta0xD+1Nv5gCH+ZF5FLIlY8JQqtBOayzXKtveLkK5XZtreInGOSRzQvf2yTvdQzT4iAAP8gSed4DwD5OBT0ZzrJt4WDAYfD7TsT5CkrV+7T4nDFtmQb66ofdbg9+xNyjgDJE9hUnnlRNGIdaqFFs8NDrznVSCChJFm1al6b03WShxJdBODzXfKkMli97MkNNpfvcAvxL4fL43W4fH7SXGpY81drM7o/RR8rlJ9AyQmJ2FjhYPW9dpfnQLsL8x1lvku3AwvzIxikLNzfGIjLCXl98cAPeqXON5S6RWv9CKC2her9r3dXPhz0z3W4vWWGqKVOl+dSGOq1KNBu0fqgIgy7SMCwpW3bplWr5n3icPsuMzTfcLi9VwH6ue3K2FpITlXEaRCMi5rtr9nHex1Q9Nvd3uUC3gtwqQkZYEBOBDFV09LJYKaPr0ZSaCP92+6ytOZFlIo+H1HYHcAz
++WxfbEbz6yJWnivRtvmEWg3gwuZgYBUAUHinUB2J/OgDABC1qqihOdzh9oYT7VojLeNh7f8JAISD/n853N7D7K66MwjZQsbc8wYo9ettRAnAVmjZDEN2hJZWbwaweVz5SbaoiU8Zi6BRlNa2pWV8BP3WA7EpmcPt+SnQEZBcCb7QlF5Pi7XJFWJ07Dfnornev0LEt1+RS2aJ0lOEyqPNSDFie9CLDCWT4iFhASTPdznVXur1QvPSfsA+YmATiPc0+YfG+upnEmUFfB+G2pztuqmsqfUvdLi9S0Ddae8aAKhkA0xJO2YiHAz8yeme+RJFXQitrzMgVg28DeC+UDDwSEc5/7+K3DMWCNQVAnV5P81+IrKQ5BtD+w8+K/EyKi4+ytWe1+8cUM4CpNwQWQ/NuYYhk8O1nY/K6OOr8f/UzCs00iuNggAAAABJRU5ErkJggg==</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <PageWidth>21cm</PageWidth>
+  <DataSets>
+    <DataSet Name="AuditServer">
+      <Fields>
+        <Field Name="ListCount">
+          <DataField>ListCount</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="ROADWAY_DESC">
+          <DataField>ROADWAY_DESC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TOLL_LANE_ID">
+          <DataField>TOLL_LANE_ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PERIOD_TIME">
+          <DataField>PERIOD_TIME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TAG_CNT">
+          <DataField>TAG_CNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IMG_CNT">
+          <DataField>IMG_CNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TAG_IMG_CNT">
+          <DataField>TAG_IMG_CNT</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TAG_PEC">
+          <Value>=(Fields!TAG_CNT.Value+Fields!TAG_IMG_CNT.Value) 
+/ 
+( Fields!TAG_CNT.Value
++ Fields!TAG_IMG_CNT.Value
++ Fields!IMG_CNT.Value)</Value>
+        </Field>
+        <Field Name="IMG_PEC">
+          <Value>=(Fields!IMG_CNT.Value+Fields!TAG_IMG_CNT.Value) 
+/ 
+( Fields!TAG_CNT.Value
++ Fields!TAG_IMG_CNT.Value
++ Fields!IMG_CNT.Value)</Value>
+        </Field>
+        <Field Name="PAGEROW1">
+          <Value>=CInt(Fields!ListCount.Value)-2</Value>
+        </Field>
+        <Field Name="PAGEROW2">
+          <Value>=(Cint(Fields!ListCount.Value)/2)-2</Value>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AuditServer</DataSourceName>
+        <CommandText>IF @pShowLane = 0
+
+SELECT 
+  ROW_NUMBER() OVER(ORDER BY ROADWAY_DESC DESC, L_Order, PERIOD_TIME) AS ListCount, 
+  ROADWAY_DESC, 
+  TOLL_LANE_ID, 
+  PERIOD_TIME, 
+  TAG_CNT, 
+  IMG_CNT, 
+  TAG_IMG_CNT
+FROM
+(
+  SELECT ROW_NUMBER() OVER(ORDER BY PERIOD_TIME) AS RowCnt, 
+    ROADWAY_DESC, 
+	TOLL_LANE_ID, 
+	PERIOD_TIME,
+	COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+    COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, 
+	COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT,
+	'A' AS L_Order
+  FROM
+  (
+    SELECT 
+	  CASE @pTimeInterval 
+	    WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+	    WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC, 
+	  DP_TAG_ONLY_CNT, 
+	  DP_IMG_CNT, 
+	  DP_TAG_IMG_CNT
+    FROM report.F_MLFF_TRAFFIC_VOLUME mlff
+    INNER JOIN report.D_DATE date
+      ON mlff.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON mlff.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON mlff.LANE_KEY = lane.LANE_KEY AND SHT_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON mlff.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (2 = @pRoadWay ))
+    AND mlff.ROADWAY_KEY = 2
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND mlff.CARRIAGEWAY_KEY = @pCarriageway
+  )AS TunnelPeriodCount
+  GROUP BY PERIOD_TIME, TOLL_LANE_ID, ROADWAY_DESC
+  UNION ALL
+  SELECT 
+    99999 AS RowCnt, 
+	'Sydney Harbour Tunnel' AS ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+	'Total: ' AS PERIOD_TIME,
+    SUM(DP_TAG_ONLY_CNT) AS TAG_CNT, 
+	SUM(DP_IMG_CNT) AS IMG_CNT, 
+	SUM(DP_TAG_IMG_CNT) AS TAG_IMG_CNT, 
+	'B' AS L_Order
+  FROM
+  (    
+    SELECT 
+	  CASE @pTimeInterval 
+	    WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+	    WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC, 
+	  DP_TAG_ONLY_CNT, 
+	  DP_IMG_CNT, 
+	  DP_TAG_IMG_CNT
+    FROM report.F_MLFF_TRAFFIC_VOLUME mlff
+    INNER JOIN report.D_DATE date
+      ON mlff.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON mlff.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON mlff.LANE_KEY = lane.LANE_KEY AND SHT_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON mlff.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (2 = @pRoadWay ))
+    AND mlff.ROADWAY_KEY = 2
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND mlff.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS TunnelTotalCount
+  GROUP BY ROADWAY_DESC
+  UNION ALL
+  SELECT 
+    10000 AS RowCnt, 
+    ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+    'Average: ' AS PERIOD_TIME,
+    AVG(Convert(decimal(10,4),TAG_CNT)) AS TAG_CNT, 
+    AVG(Convert(decimal(10,4),IMG_CNT)) AS IMG_CNT, 
+    AVG(Convert(decimal(10,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'C' AS L_Order
+  FROM
+  (
+    SELECT 
+	  ROADWAY_DESC, 
+	  PERIOD_TIME,
+	  COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+      COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, 
+	  COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT
+    FROM
+    (
+      SELECT 
+	    CASE @pTimeInterval 
+          WHEN 'Hour' THEN d_time.START_OF_HOUR
+          WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+          WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+          WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+        END AS PERIOD_TIME, 
+        CASE @pShowLane 
+	      WHEN 0 THEN NULL
+          WHEN 1 THEN lane.TOLL_LANE_ID 
+        END AS TOLL_LANE_ID, 
+        rw.ROADWAY_DESC, 
+        DP_TAG_ONLY_CNT, 
+        DP_IMG_CNT, DP_TAG_IMG_CNT
+      FROM report.F_MLFF_TRAFFIC_VOLUME mlff
+      INNER JOIN report.D_DATE date
+        ON mlff.PASSING_DATE_KEY = date.DATE_KEY
+      AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR @pExWeekend = '0')
+      AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR @pExWeekday = '0')
+      AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+      OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+      INNER JOIN report.D_TIME d_time
+        ON mlff.PASSING_TIME_KEY = d_time.TIME_KEY
+      INNER JOIN report.D_LANE lane
+        ON mlff.LANE_KEY = lane.LANE_KEY AND SHT_LANE_ID != -2
+      INNER JOIN report.D_ROADWAY rw
+        ON mlff.ROADWAY_KEY = rw.ROADWAY_KEY 
+      AND ((0 = @pRoadWay ) OR (2 = @pRoadWay ))
+      AND mlff.ROADWAY_KEY = 2
+      AND date.DATE BETWEEN @pStartDate AND @pEndDate
+      AND mlff.CARRIAGEWAY_KEY = @pCarriageway
+    )AS TunnelPeriodCount
+    GROUP BY  ROADWAY_DESC, PERIOD_TIME 
+  ) Average
+  GROUP BY  ROADWAY_DESC
+
+  UNION ALL
+  SELECT 
+    ROW_NUMBER() OVER(ORDER BY PERIOD_TIME) AS RowCnt, 
+    ROADWAY_DESC, 
+    TOLL_LANE_ID, 
+    PERIOD_TIME,
+    COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+    COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT, 'D' AS L_Order
+  FROM
+  (
+    SELECT 
+      CASE @pTimeInterval 
+  	  WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+  	  WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC,
+  	DP_TAG_ONLY_CNT, 
+  	DP_IMG_CNT, 
+  	DP_TAG_IMG_CNT
+    FROM report.F_SPD_TRAFFIC_VOLUME spd
+    INNER JOIN report.D_DATE date
+    ON spd.PASSING_DATE_KEY = date.DATE_KEY
+      AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+      AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+      AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+      OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON spd.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON spd.LANE_KEY = lane.LANE_KEY AND SHB_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON spd.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (1 = @pRoadWay ))
+    AND spd.ROADWAY_KEY = 1
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND spd.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS BridgePeriodCount
+  GROUP BY PERIOD_TIME, TOLL_LANE_ID, ROADWAY_DESC
+  UNION ALL
+  SELECT 
+    99999 AS RowCnt, 
+    'Sydney Harbour Bridge' AS ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+    'Total: ' AS PERIOD_TIME,
+    SUM(DP_TAG_ONLY_CNT) AS TAG_CNT, 
+    SUM(DP_IMG_CNT) AS IMG_CNT, 
+    SUM(DP_TAG_IMG_CNT) AS TAG_IMG_CNT, 
+    'E' AS L_Order
+  FROM
+  (
+    SELECT 
+      CASE @pTimeInterval 
+  	  WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+  	  WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC,
+  	DP_TAG_ONLY_CNT, 
+  	DP_IMG_CNT, 
+  	DP_TAG_IMG_CNT
+    FROM report.F_SPD_TRAFFIC_VOLUME spd
+    INNER JOIN report.D_DATE date
+      ON spd.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON spd.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON spd.LANE_KEY = lane.LANE_KEY AND SHB_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON spd.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (1 = @pRoadWay ))
+    AND spd.ROADWAY_KEY = 1
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND spd.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS BridgeTotalCount
+  GROUP BY ROADWAY_DESC
+  
+  UNION ALL
+  SELECT 
+    10000 AS RowCnt, 
+    ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+    'Average: ' AS PERIOD_TIME,
+    AVG(Convert(decimal(10,4),TAG_CNT)) AS TAG_CNT, 
+    AVG(Convert(decimal(10,4),IMG_CNT)) AS IMG_CNT, 
+    AVG(Convert(decimal(10,4),TAG_IMG_CNT)) AS TAG_IMG_CNT, 'F' AS L_Order
+  FROM
+  (
+    SELECT 
+      ROADWAY_DESC, 
+      PERIOD_TIME,
+  	COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+      COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, 
+  	COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT
+    FROM
+    (
+      SELECT 
+  	  CASE @pTimeInterval 
+  	    WHEN 'Hour' THEN d_time.START_OF_HOUR
+          WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+          WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+          WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+        END AS PERIOD_TIME, 
+        CASE @pShowLane 
+  	    WHEN 0 THEN NULL
+          WHEN 1 THEN lane.TOLL_LANE_ID 
+        END AS TOLL_LANE_ID,
+        rw.ROADWAY_DESC,
+  	  DP_TAG_ONLY_CNT, 
+  	  DP_IMG_CNT, 
+  	  DP_TAG_IMG_CNT
+      FROM report.F_SPD_TRAFFIC_VOLUME spd
+      INNER JOIN report.D_DATE date
+        ON spd.PASSING_DATE_KEY = date.DATE_KEY
+      AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+      AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+      AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+      OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+      INNER JOIN report.D_TIME d_time
+        ON spd.PASSING_TIME_KEY = d_time.TIME_KEY
+      INNER JOIN report.D_LANE lane
+        ON spd.LANE_KEY = lane.LANE_KEY AND SHB_LANE_ID != -2
+      INNER JOIN report.D_ROADWAY rw
+        ON spd.ROADWAY_KEY = rw.ROADWAY_KEY 
+      AND ((0 = @pRoadWay ) OR (1 = @pRoadWay ))
+      AND spd.ROADWAY_KEY = 1
+      AND date.DATE BETWEEN @pStartDate AND @pEndDate
+      AND spd.CARRIAGEWAY_KEY = @pCarriageway
+    ) AS BridgePeriodCount
+  GROUP BY  ROADWAY_DESC, PERIOD_TIME 
+  ) Average
+GROUP BY  ROADWAY_DESC
+) NewList
+
+IF @pShowLane = 1
+
+
+SELECT 
+  ROW_NUMBER() OVER(ORDER BY ROADWAY_DESC DESC,TOLL_LANE_ID, L_Order,PERIOD_TIME) AS ListCount, 
+  ROADWAY_DESC, 
+  TOLL_LANE_ID, 
+  PERIOD_TIME, 
+  TAG_CNT, 
+  IMG_CNT, 
+  TAG_IMG_CNT
+FROM
+(
+  SELECT ROW_NUMBER() OVER(ORDER BY PERIOD_TIME) AS RowCnt, 
+    ROADWAY_DESC, 
+	TOLL_LANE_ID, 
+	PERIOD_TIME,
+	COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+    COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, 
+	COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT,
+	'A' AS L_Order
+  FROM
+  (
+    SELECT 
+	  CASE @pTimeInterval 
+	    WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+	    WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC, 
+	  DP_TAG_ONLY_CNT, 
+	  DP_IMG_CNT, 
+	  DP_TAG_IMG_CNT
+    FROM report.F_MLFF_TRAFFIC_VOLUME mlff
+    INNER JOIN report.D_DATE date
+      ON mlff.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON mlff.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON mlff.LANE_KEY = lane.LANE_KEY AND SHT_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON mlff.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (2 = @pRoadWay ))
+    AND mlff.ROADWAY_KEY = 2
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND mlff.CARRIAGEWAY_KEY = @pCarriageway
+  )AS TunnelPeriodCount
+  GROUP BY PERIOD_TIME, TOLL_LANE_ID, ROADWAY_DESC
+  UNION ALL
+  SELECT 
+    99999 AS RowCnt, 
+	'Sydney Harbour Tunnel' AS ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+	'Total: ' AS PERIOD_TIME,
+    SUM(DP_TAG_ONLY_CNT) AS TAG_CNT, 
+	SUM(DP_IMG_CNT) AS IMG_CNT, 
+	SUM(DP_TAG_IMG_CNT) AS TAG_IMG_CNT, 
+	'B' AS L_Order
+  FROM
+  (    
+    SELECT 
+	  CASE @pTimeInterval 
+	    WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+	    WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC, 
+	  DP_TAG_ONLY_CNT, 
+	  DP_IMG_CNT, 
+	  DP_TAG_IMG_CNT
+    FROM report.F_MLFF_TRAFFIC_VOLUME mlff
+    INNER JOIN report.D_DATE date
+      ON mlff.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON mlff.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON mlff.LANE_KEY = lane.LANE_KEY AND SHT_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON mlff.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (2 = @pRoadWay ))
+    AND mlff.ROADWAY_KEY = 2
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND mlff.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS TunnelTotalCount
+  GROUP BY ROADWAY_DESC
+
+  UNION ALL
+  SELECT 
+    ROW_NUMBER() OVER(ORDER BY PERIOD_TIME) AS RowCnt, 
+    ROADWAY_DESC, 
+    TOLL_LANE_ID, 
+    PERIOD_TIME,
+    COALESCE(SUM(DP_TAG_ONLY_CNT),0) TAG_CNT, 
+    COALESCE(SUM(DP_IMG_CNT),0) IMG_CNT, COALESCE(SUM(DP_TAG_IMG_CNT),0) TAG_IMG_CNT, 'D' AS L_Order
+  FROM
+  (
+    SELECT 
+      CASE @pTimeInterval 
+  	  WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+  	  WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC,
+  	DP_TAG_ONLY_CNT, 
+  	DP_IMG_CNT, 
+  	DP_TAG_IMG_CNT
+    FROM report.F_SPD_TRAFFIC_VOLUME spd
+    INNER JOIN report.D_DATE date
+    ON spd.PASSING_DATE_KEY = date.DATE_KEY
+      AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+      AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+      AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+      OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON spd.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON spd.LANE_KEY = lane.LANE_KEY AND SHB_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON spd.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (1 = @pRoadWay ))
+    AND spd.ROADWAY_KEY = 1
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND spd.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS BridgePeriodCount
+  GROUP BY PERIOD_TIME, TOLL_LANE_ID, ROADWAY_DESC
+  UNION ALL
+  SELECT 
+    99999 AS RowCnt, 
+    'Sydney Harbour Bridge' AS ROADWAY_DESC, 
+    CASE @pShowLane 
+      WHEN '0' THEN NULL
+      WHEN '1' THEN '500' 
+    END
+    AS TOLL_LANE_ID, 
+    'Total: ' AS PERIOD_TIME,
+    SUM(DP_TAG_ONLY_CNT) AS TAG_CNT, 
+    SUM(DP_IMG_CNT) AS IMG_CNT, 
+    SUM(DP_TAG_IMG_CNT) AS TAG_IMG_CNT, 
+    'E' AS L_Order
+  FROM
+  (
+    SELECT 
+      CASE @pTimeInterval 
+  	  WHEN 'Hour' THEN d_time.START_OF_HOUR
+        WHEN '15 Min' THEN d_time.START_OF_QUARTER_HOUR
+        WHEN '30 Min' THEN d_time.START_OF_HALF_HOUR
+        WHEN 'Date' THEN CONVERT(varchar,DATE,103)
+      END AS PERIOD_TIME, 
+      CASE @pShowLane 
+  	  WHEN 0 THEN NULL
+        WHEN 1 THEN lane.TOLL_LANE_ID 
+      END AS TOLL_LANE_ID,
+      rw.ROADWAY_DESC,
+  	DP_TAG_ONLY_CNT, 
+  	DP_IMG_CNT, 
+  	DP_TAG_IMG_CNT
+    FROM report.F_SPD_TRAFFIC_VOLUME spd
+    INNER JOIN report.D_DATE date
+      ON spd.PASSING_DATE_KEY = date.DATE_KEY
+    AND (((@pExWeekend = '1' AND WEEK_DAY_FLAG = 1) OR (@pExWeekend = '0'))
+    AND ((@pExWeekday = '1' AND WEEK_DAY_FLAG = 0) OR (@pExWeekday = '0'))
+    AND ((@pExPublicHoliday = '1' AND PUBLIC_HOLIDAY_FLAG = 0) OR (@pExPublicHoliday = '0'))
+    OR ((@pExPublicHoliday = '0' AND PUBLIC_HOLIDAY_FLAG = 1)))
+    INNER JOIN report.D_TIME d_time
+      ON spd.PASSING_TIME_KEY = d_time.TIME_KEY
+    INNER JOIN report.D_LANE lane
+      ON spd.LANE_KEY = lane.LANE_KEY AND SHB_LANE_ID != -2
+    INNER JOIN report.D_ROADWAY rw
+      ON spd.ROADWAY_KEY = rw.ROADWAY_KEY 
+    AND ((0 = @pRoadWay ) OR (1 = @pRoadWay ))
+    AND spd.ROADWAY_KEY = 1
+    AND date.DATE BETWEEN @pStartDate AND @pEndDate
+    AND spd.CARRIAGEWAY_KEY = @pCarriageway
+  ) AS BridgeTotalCount
+  GROUP BY ROADWAY_DESC
+  
+) NewList</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@pTimeInterval">
+            <Value>=Parameters!pTimeInterval.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pShowLane">
+            <Value>=Parameters!pShowLane.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pExWeekend">
+            <Value>=Parameters!pExWeekend.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pExWeekday">
+            <Value>=Parameters!pExWeekday.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pExPublicHoliday">
+            <Value>=Parameters!pExPublicHoliday.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pRoadWay">
+            <Value>=Parameters!pRoadWay.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pStartDate">
+            <Value>=Parameters!pStartDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pEndDate">
+            <Value>=Parameters!pEndDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pCarriageway">
+            <Value>=Parameters!pCarriageway.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Code>Function CheckDateParameters(StartDate as Date, EndDate as Date) as Integer
+Dim msg as String
+     msg = ""
+     If (StartDate &gt; EndDate)  Then
+ msg="Start Date should not be later than End Date"
+     End If
+     If msg &lt;&gt; "" Then
+ MsgBox(msg, 16, "Report Validation")
+ Err.Raise(6,Report)                    'Raise an overflow
+     End If
+End Function</Code>
+  <Width>8.0325in</Width>
+  <Body>
+    <ColumnSpacing>0in</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="Report_Info">
+        <DataElementOutput>Output</DataElementOutput>
+        <Visibility>
+          <Hidden>true</Hidden>
+        </Visibility>
+        <Top>0.10582cm</Top>
+        <Width>2.53968cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>8.83597cm</Left>
+        <DataElementName>Report_Info</DataElementName>
+        <Height>0.63492cm</Height>
+        <Value>=Parameters!pStartDate.Value + " To " + Parameters!pEndDate.Value + " Duration: " + Parameters!pTimeInterval.Value</Value>
+      </Textbox>
+      <List Name="list1">
+        <Left>0.02645cm</Left>
+        <DataSetName>AuditServer</DataSetName>
+        <ReportItems>
+          <Table Name="table2">
+            <ZIndex>1</ZIndex>
+            <DataSetName>AuditServer</DataSetName>
+            <Top>0.88783cm</Top>
+            <Details>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Lane_ID">
+                          <DataElementOutput>Output</DataElementOutput>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>7</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>LaneID</DataElementName>
+                          <Value>=Replace(Fields!TOLL_LANE_ID.Value, "500" ,"")</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Vehicle_Passing_Time">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>6</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>Time</DataElementName>
+                          <Value>=Fields!PERIOD_TIME.Value</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Vehicle_Count_with_Only_Tag_Detection">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>5</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>ETOLL</DataElementName>
+                          <Value>=IIF(Fields!PERIOD_TIME.Value = "Average: ",
+FORMATNUMBER(CDec(Fields!TAG_CNT.Value)
++ CDec(Fields!TAG_IMG_CNT.Value),2)
+,
+
+FormatNumber(
+  Fields!TAG_CNT.Value
++ Fields!TAG_IMG_CNT.Value
+,0))</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Vehicle_Count_with_Both_Tag_Detection_and_Image">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>4</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>EINV</DataElementName>
+                          <Value>=IIF(Fields!PERIOD_TIME.Value = "Average: ",
+FORMATNUMBER(CDec(Fields!TAG_IMG_CNT.Value),2)
+,
+
+FormatNumber(Fields!TAG_IMG_CNT.Value,0) )</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Vehicle_Count_with_Only_Image">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>3</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>VIOLN</DataElementName>
+                          <Value>=IIF(Fields!PERIOD_TIME.Value = "Average: ",
+FORMATNUMBER(CDec(Fields!IMG_CNT.Value),2)
+,
+
+FormatNumber(Fields!IMG_CNT.Value,0)
+)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Total_Vehicle_Count">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>2</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>VEH</DataElementName>
+                          <Value>=IIF(Fields!PERIOD_TIME.Value = "Average: ",
+FORMATNUMBER(
+CDec(Fields!TAG_CNT.Value)
++ CDec(Fields!TAG_IMG_CNT.Value)
++ CDec(Fields!IMG_CNT.Value)
+
+,2)
+,
+
+FormatNumber(
+SUM(
+  Fields!TAG_CNT.Value + 
+  Fields!TAG_IMG_CNT.Value +
+  Fields!IMG_CNT.Value
+ ),0)
+)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="PAGEROW2">
+                          <rd:DefaultName>PAGEROW2</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>1</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>Percent_TAG</DataElementName>
+                          <Value>=IIF
+( Fields!PERIOD_TIME.Value &lt;&gt; "Average: ",
+  FormatPercent(Fields!TAG_PEC.Value, 2),
+  IIF(Parameters!pRoadWay.Value = "0" AND Fields!ROADWAY_DESC.Value = "Sydney Harbour Bridge",  
+    FormatPercent(Fields!TAG_PEC.Value/Sum(Fields!PAGEROW2.Value),2) ,
+    FormatPercent(Fields!TAG_PEC.Value/Sum(Fields!PAGEROW1.Value),2)
+    )
+)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Image_Only_Percentage">
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>=IIF(Fields!PERIOD_TIME.Value = "Total: ", "Bold", 
+IIF(Fields!PERIOD_TIME.Value = "Average: ", "Bold", 
+"Normal"))</FontWeight>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <DataElementName>Percent_VIOLN</DataElementName>
+                          <Value>=IIF
+( Fields!PERIOD_TIME.Value &lt;&gt; "Average: ",
+  FormatPercent(Fields!IMG_PEC.Value, 2),
+  IIF(Parameters!pRoadWay.Value = "0" AND Fields!ROADWAY_DESC.Value = "Sydney Harbour Bridge",  
+    FormatPercent(Fields!IMG_PEC.Value/Sum(Fields!PAGEROW2.Value),2) ,
+    FormatPercent(Fields!IMG_PEC.Value/Sum(Fields!PAGEROW1.Value),2)
+    )
+)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.25in</Height>
+                </TableRow>
+              </TableRows>
+              <Grouping Name="table2_Details_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!ListCount.Value</GroupExpression>
+                  <GroupExpression>=Fields!ROADWAY_DESC.Value</GroupExpression>
+                  <GroupExpression>=Fields!PERIOD_TIME.Value</GroupExpression>
+                  <GroupExpression>=Fields!TOLL_LANE_ID.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=Fields!ListCount.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+                <SortBy>
+                  <SortExpression>=Fields!ROADWAY_DESC.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+                <SortBy>
+                  <SortExpression>=Fields!TOLL_LANE_ID.Value</SortExpression>
+                  <Direction>Ascending</Direction>
+                </SortBy>
+              </Sorting>
+            </Details>
+            <Header>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox1">
+                          <rd:DefaultName>textbox1</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>15</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>LANE ID</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox6">
+                          <rd:DefaultName>textbox6</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>14</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>Passing Time</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox7">
+                          <rd:DefaultName>textbox7</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>13</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>Tag Tx</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox8">
+                          <rd:DefaultName>textbox8</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>12</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>Tag + Img Tx</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox14">
+                          <rd:DefaultName>textbox14</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>11</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>Img Tx</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox16">
+                          <rd:DefaultName>textbox16</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>10</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>VEH</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox9">
+                          <rd:DefaultName>textbox9</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>9</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>% Tag</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox20">
+                          <rd:DefaultName>textbox20</rd:DefaultName>
+                          <Style>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>8</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>% VIOLN</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.63492cm</Height>
+                </TableRow>
+              </TableRows>
+            </Header>
+            <TableColumns>
+              <TableColumn>
+                <Visibility>
+                  <Hidden>=IIF(Parameters!pShowLane.Value = "0", True, False)</Hidden>
+                </Visibility>
+                <Width>2cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>3cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>2.53cm</Width>
+              </TableColumn>
+            </TableColumns>
+            <Height>1.26984cm</Height>
+          </Table>
+          <Textbox Name="ROADWAY_DESC">
+            <rd:DefaultName>ROADWAY_DESC</rd:DefaultName>
+            <DataElementOutput>Output</DataElementOutput>
+            <Top>0.13228cm</Top>
+            <Width>5.97884cm</Width>
+            <Style>
+              <FontSize>12pt</FontSize>
+              <FontWeight>700</FontWeight>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <CanGrow>true</CanGrow>
+            <Height>0.66138cm</Height>
+            <Value>=Fields!ROADWAY_DESC.Value</Value>
+          </Textbox>
+        </ReportItems>
+        <Top>0.10582cm</Top>
+        <Width>20.18cm</Width>
+        <Grouping Name="list1_Details_Group">
+          <GroupExpressions>
+            <GroupExpression>=Fields!ROADWAY_DESC.Value</GroupExpression>
+          </GroupExpressions>
+          <PageBreakAtEnd>true</PageBreakAtEnd>
+        </Grouping>
+        <Height>2.21058cm</Height>
+      </List>
+    </ReportItems>
+    <Height>2.40742cm</Height>
+  </Body>
+  <Language>en-AU</Language>
+  <PageFooter>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Rectangle Name="rectangle2">
+        <ZIndex>1</ZIndex>
+        <ReportItems>
+          <Line Name="line4">
+            <Top>0.04167in</Top>
+            <Width>-20.4cm</Width>
+            <Style>
+              <BorderStyle>
+                <Default>Solid</Default>
+              </BorderStyle>
+              <BorderWidth>
+                <Default>4pt</Default>
+              </BorderWidth>
+            </Style>
+            <Left>20.4cm</Left>
+            <Height>0in</Height>
+          </Line>
+        </ReportItems>
+        <Top>0.31746cm</Top>
+        <Height>0.06in</Height>
+      </Rectangle>
+      <Rectangle Name="rectangle1">
+        <ReportItems>
+          <Textbox Name="txtRequest_By">
+            <Top>0.62038cm</Top>
+            <Width>6cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>2</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>0.05291cm</Left>
+            <Height>0.5cm</Height>
+            <Value>="Requested By: " &amp; mid(User!UserID, instrrev(user!UserID,"\")+1, len(user!UserID))</Value>
+          </Textbox>
+          <Textbox Name="txtPage_ID">
+            <Top>0.62038cm</Top>
+            <Width>2.53968cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <ZIndex>1</ZIndex>
+            <CanGrow>true</CanGrow>
+            <Left>8.92cm</Left>
+            <Height>0.5cm</Height>
+            <Value>= "Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+          </Textbox>
+          <Textbox Name="txtDate_Request">
+            <Top>0.62038cm</Top>
+            <Width>6.98413cm</Width>
+            <Style>
+              <Color>White</Color>
+              <BackgroundColor>#d60c08</BackgroundColor>
+              <TextAlign>Right</TextAlign>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <CanGrow>true</CanGrow>
+            <Left>13.3cm</Left>
+            <Height>0.5cm</Height>
+            <Value>="Date Requested: " &amp; format(cdate(Globals!ExecutionTime),"dd MMM yyyy HH:mm:ss")</Value>
+          </Textbox>
+        </ReportItems>
+        <Top>0.37037cm</Top>
+        <Style>
+          <BackgroundColor>#d60c08</BackgroundColor>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>0.65624in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageFooter>
+  <TopMargin>0.2cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>
